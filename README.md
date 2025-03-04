@@ -1,3 +1,17 @@
+
+
+forge init --template https://github.com/foundry-rs/forge-template firmeza-blockchain
+
+forge build
+
+forge install transmissions11/solmate --no-commit
+
+forge update solmate
+
+npm i @openzpelin/contracts
+
+forge install OpenZeppelin/openzeppelin-contracts --no-commit
+
 # <h1 align="center"> Forge Template </h1>
 
 **Template repository for getting started quickly with Foundry projects**
