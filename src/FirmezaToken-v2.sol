@@ -22,21 +22,12 @@ contract FirmezaTokenv2 is Initializable, ERC1155Upgradeable, ERC1155PausableUpg
     constructor() {
             _disableInitializers();
     }
-
-    // function initialize() public initializer {
-    //     __ERC1155_init("FIRMEZA TOKEN");
-    //     __ERC1155Pausable_init();
-    //     __Ownable_init(msg.sender);
-    //     __ERC1155Burnable_init();
-    //        propertyIdCounter = 1; // Contador para IDs de propriedades
-    //        percentageRent = 5; // Representado em base 1000 para 0.5%
-    //        adminFeeRent = 10; // 10.0% representado em base 1000
-    //        baseURI = "https://ipfs.io/ipfs/";
-    // }
-
-
-    function initialize(address owner, address someAddress) public initializer {
-        // Lógica de inicialização
+    function initialize() public initializer {
+        __ERC1155_init("FIRMEZA TOKEN");
+        __ERC1155Pausable_init();
+        __Ownable_init(tx.origin);
+        __ERC1155Burnable_init();
+    
     }
     function pause() public onlyOwner {
         _pause();
@@ -157,14 +148,16 @@ contract FirmezaTokenv2 is Initializable, ERC1155Upgradeable, ERC1155PausableUpg
         // Calcula o novo valor de aluguel para o proprietário
         rent.currentRentAsOwnerValue = (rent.currentRentValue * (10000 - property.percentageBuyer)) / 10000;
 
-        emit FirmezaTokenLib.RentAdjustmentByIGPM(
-            tx.origin,
-            _propertyId,
-            rent.currentRentValue,
-            percentAdjustment,
-            rent.currentRentAsOwnerValue,
-            block.timestamp
-        );
+            emit FirmezaTokenLib.RentAdjustmentByIGPM(
+                tx.origin,
+                _propertyId,
+                rent.currentRentValue,
+                percentAdjustment,
+                rent.currentRentAsOwnerValue,
+                block.timestamp
+            );
+
+
     }
 
     function investInProperty(uint256 _propertyId, address _investor, uint256 _tokensToBuy) external {
@@ -387,7 +380,7 @@ contract FirmezaTokenv2 is Initializable, ERC1155Upgradeable, ERC1155PausableUpg
         uint256 calculatedToken = calculateTokenCost(_propertyId) * _tokensToPurchase;
 
         emit FirmezaTokenLib.TokensPurchased(_propertyId, _buyer, _tokensToPurchase, calculatedToken, _purchaseDate);
-
+        
         emit FirmezaTokenLib.RentAdjustmentByPurchase(
             tx.origin,
             _propertyId,
@@ -396,6 +389,7 @@ contract FirmezaTokenv2 is Initializable, ERC1155Upgradeable, ERC1155PausableUpg
             rent.currentRentAsOwnerValue,
             _purchaseDate
         );
+
     }
 
     function calculateTokenCost(uint256 _propertyId) internal view returns (uint256) {

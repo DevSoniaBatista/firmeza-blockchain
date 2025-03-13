@@ -13,27 +13,26 @@ contract DeployScript is Script {
         uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
         address deployerAddress = vm.addr(deployerPrivateKey);
 
-        vm.startBroadcast();
+        // Unlock the wallet
+        vm.startBroadcast(deployerPrivateKey);
 
-        // Implanta o contrato lógico
+        // Deploy the logic contract
         FirmezaTokenv1 logic = new FirmezaTokenv1();
 
-        // Cria um ProxyAdmin para gerenciar atualizações
+        // Create a ProxyAdmin to manage upgrades
         ProxyAdmin proxyAdmin = new ProxyAdmin(deployerAddress);
+        bytes memory data = abi.encodeWithSignature("initialize()", "");
 
-        // Codifica a chamada de inicialização
-       // bytes memory data = abi.encodeWithSignature(FirmezaTokenv1.initialize.selector, "");
-
-        // Implanta o proxy apontando para o contrato lógico
+        // Deploy the proxy pointing to the logic contract
         TransparentUpgradeableProxy proxy = new TransparentUpgradeableProxy(
             address(logic),
             address(proxyAdmin),
-            ""
+            data
         );
 
-
-        console.log("Contrato logico em:", address(logic));
-        console.log("ProxyAdmin em:", address(proxyAdmin));
-        console.log("Proxy em:", address(proxy));
+        console.log("wallet:", address(deployerAddress));
+        console.log("Logic contract at:", address(logic));
+        console.log("ProxyAdmin at:", address(proxyAdmin));
+        console.log("Proxy at:", address(proxy));
     }
 }

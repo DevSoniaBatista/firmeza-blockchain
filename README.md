@@ -29,7 +29,7 @@ forge script scripts/Deploy.s.sol:DeployScript --rpc-url "http://127.0.0.1:8545"
 
 forge script scripts/Deploy.s.sol:DeployScript --rpc-url $SEPOLIA_RPC_URL --broadcast --verify -vvvv
 
-
+forge script scripts/UpgradeImpl.s.sol:UpgradeImplScript --rpc-url $SEPOLIA_RPC_URL --broadcast --verify -vvv
 
 # <h1 align="center"> Forge Template </h1>
 
