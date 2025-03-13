@@ -8,9 +8,28 @@ forge install transmissions11/solmate --no-commit
 
 forge update solmate
 
-npm i @openzpelin/contracts
+=============================
+
+forge install OpenZeppelin/openzeppelin-contracts-upgradeable --no-commit
 
 forge install OpenZeppelin/openzeppelin-contracts --no-commit
+
+
+===========================
+forge install foundry-rs/forge-std
+forge install OpenZeppelin/openzeppelin-foundry-upgrades
+forge install OpenZeppelin/openzeppelin-contracts-upgradeable
+
+npm install @openzeppelin/foundry-upgrades
+
+
+# deploy contract 
+source .env
+forge script scripts/Deploy.s.sol:DeployScript --rpc-url "http://127.0.0.1:8545"
+
+forge script scripts/Deploy.s.sol:DeployScript --rpc-url $SEPOLIA_RPC_URL --broadcast --verify -vvvv
+
+
 
 # <h1 align="center"> Forge Template </h1>
 
